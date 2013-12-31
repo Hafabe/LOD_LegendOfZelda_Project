@@ -1,0 +1,4562 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY terms "http://purl.org/dc/terms/" >
+    <!ENTITY foaf "http://xmlns.com/foaf/0.1/" >
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+]>
+
+
+<rdf:RDF xmlns="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda#"
+     xml:base="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:foaf="http://xmlns.com/foaf/0.1/"
+     xmlns:terms="http://purl.org/dc/terms/"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+    <owl:Ontology rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda">
+        <owl:versionInfo>20 Oct: Deleted object class. Moved weapon, armor, and item classes to new class; Personal_object. Trap class is now an Independent_entity subclass. This put it on the same level as the Enemy class and does not make it confusing as to why traps would be with the class of objects that the protagonist carries.</owl:versionInfo>
+        <owl:versionInfo>Oct 20: Forgot that many items have a costs and can only be bought using the in-game currency (rupees) added a data type property, has_cost. How do I specifiy that that integer refers to the amount of rupees? (Perhaps having a rupee class??)</owl:versionInfo>
+        <owl:versionInfo>20 Oct: Added the dungeon class and the has_Locationand its inverse is_Location_of properties. Restricted dungeon to be individuls that must have a has_Location some Location.</owl:versionInfo>
+        <owl:versionInfo>20 Oct: Added a covering axiom to the race class as well.</owl:versionInfo>
+        <owl:versionInfo>17 Oct: Added Relationship_type class with a covering axiom whose filler are those subclasses in Relationship_type. This will restrict the relationship that any character_entity has in the game to one of four types; Boss, Mini_Boss, Friendly, Standard_Enemy.  I am leaving the classes non-disjointed because I am unsure if some of the character_entities can switch relationships. (i.e. a Boss may end up, after defeat befriending the protagonist). This should keep the relatioships simple and centered on how the player interacts with them rather than their relationship to the world. </owl:versionInfo>
+        <owl:versionInfo>I still need to refine the location entity with properties has_items and has_inhabitants. Probably need to do about a thousand other things to.</owl:versionInfo>
+        <owl:versionInfo>10 Oct: This will be considered my initial version from which I keep updated with regular annotations. In truth this is about my fifth or sixth version. I am reading the documentaion on Protege in order to better understand how to make this work well. v.1.</owl:versionInfo>
+        <owl:imports rdf:resource="http://xmlns.com/foaf/0.1/"/>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://purl.org/dc/terms/creator -->
+
+    <owl:AnnotationProperty rdf:about="&terms;creator"/>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/name -->
+
+    <owl:AnnotationProperty rdf:about="&foaf;name"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://dbpedia.org/property/firstgame -->
+
+    <owl:ObjectProperty rdf:about="http://dbpedia.org/property/firstgame">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:label>has_First_appearence</rdfs:label>
+        <rdfs:comment>This identifies an individual with with another individual that is the range of Game.</rdfs:comment>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Game"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/has_Appearence_in -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/has_Appearence_in">
+        <rdf:type rdf:resource="&owl;AsymmetricProperty"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Game"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/has_Location -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/has_Location">
+        <rdf:type rdf:resource="&owl;AsymmetricProperty"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Location_entity"/>
+        <owl:inverseOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/is_Location_of"/>
+        <rdfs:subPropertyOf rdf:resource="&owl;topObjectProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/has_Race -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/has_Race">
+        <rdf:type rdf:resource="&owl;AsymmetricProperty"/>
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Race"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/has_Relationship_type -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/has_Relationship_type">
+        <rdf:type rdf:resource="&owl;AsymmetricProperty"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Relationship_type"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/has_Weakness -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/has_Weakness">
+        <rdf:type rdf:resource="&owl;AsymmetricProperty"/>
+        <rdfs:comment>Dodongo &quot;has_weakness&quot; Bomb</rdfs:comment>
+        <rdfs:comment>Property that defined as a range of classes or individuals that are effective against the domain.</rdfs:comment>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/is_Effective_against -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/is_Effective_against">
+        <rdf:type rdf:resource="&owl;AsymmetricProperty"/>
+        <owl:inverseOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/has_Weakness"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/is_Location_of -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/is_Location_of">
+        <rdf:type rdf:resource="&owl;AsymmetricProperty"/>
+        <rdfs:subPropertyOf rdf:resource="&owl;topObjectProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/knows -->
+
+    <rdf:Description rdf:about="&foaf;knows">
+        <rdf:type rdf:resource="&owl;ReflexiveProperty"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/logo -->
+
+    <owl:ObjectProperty rdf:about="&foaf;logo">
+        <rdf:type rdf:resource="&owl;InverseFunctionalProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/has_Cost -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/has_Cost"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Bag_entity -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Bag_entity">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Personal_object"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Big_Poe -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Big_Poe">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <rdfs:comment>Sub-class of Poe? No URI in Zwiki</rdfs:comment>
+        <foaf:name>Big URI</foaf:name>
+        <rdfs:seeAlso>http://zeldawiki.org/Poe for more information about this class</rdfs:seeAlso>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Blue_Bubble -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Blue_Bubble">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Blue Bubble</foaf:name>
+        <rdfs:comment>subspecies of bubble?</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Boss -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Boss">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Relationship_type"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Game"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/World"/>
+        <foaf:name>Boss</foaf:name>
+        <rdfs:comment>Those entities that Link must fight in order to: (1) progress through the story, and/or (2) open up new areas of the game, and/or (3) are optional but designed to be exceptionally challenging.  Typically an entity belonging to this class will require Link to use his skills in a novel way, and/or be defeated using a newly acquired weapon or skill and/or represent an elevated or evolutionized version of an entity in the Enemy class.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Bottle_item_entity -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Bottle_item_entity">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Personal_object"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Character -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Character">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Independent_entity"/>
+        <rdfs:comment>Describes an entity that is a character or a class of characters within the game.</rdfs:comment>
+        <foaf:name>Character</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Character_Type -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Character_Type">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Value_type"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Trap"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/World"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Character_entity -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Character_entity">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/has_Location"/>
+                        <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Location_entity"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/has_Race"/>
+                        <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Race"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/has_Relationship_type"/>
+                        <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Relationship_type"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Character"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/has_Race"/>
+                <owl:allValuesFrom rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Race"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/has_Location"/>
+                <owl:allValuesFrom rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Location_entity"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/has_Relationship_type"/>
+                <owl:allValuesFrom rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Relationship_type"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <rdfs:comment>This is the class of characters whose individuals are not enemies. Usually a friendly character. </rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Chart_entity -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Chart_entity">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Personal_object"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Dark_Stalfos -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Dark_Stalfos">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <rdfs:seeAlso>http://zeldawiki.org/Dark_Stalfos#Dark_Stalfos for more info about this particualr subspecies?</rdfs:seeAlso>
+        <foaf:name>Dark Stalfos</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Dungeon -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Dungeon">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/World"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/has_Location"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Location_entity"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies">
+        <rdfs:label>Enemy</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Character"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/has_Location"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Location_entity"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/has_Relationship_type"/>
+                <owl:allValuesFrom rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Relationship_type"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/has_Relationship_type"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Relationship_type"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/has_Race"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Race"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment>Describes the class of entities that the protagonist (usually Link) must fight throughout the game.  Any &apos;living&apos; thing that seeks to do damage to Link is considered an enemy.  </rdfs:comment>
+        <rdfs:comment rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemy_Type -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemy_Type">
+        <rdfs:label>Enemy Type</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Unused_Classes"/>
+        <rdfs:comment>Class which indicates the relationship of the Enemy Class to the protagonist and the game.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Friendly -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Friendly">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Relationship_type"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Game"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/World"/>
+        <rdfs:comment>Friendly relationship to the protagonist.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Game -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Game">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Independent_entity"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Mini_Boss"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Regular_Enemy"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Trap"/>
+        <rdfs:comment>The specific game in the Legend of Zelda series.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Green_Bubble -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Green_Bubble">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Green Bubble</foaf:name>
+        <foaf:name>see zeldawiki.org/bubble</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Health_restoring_item_entity -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Health_restoring_item_entity">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Personal_object"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Independent_entity -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Independent_entity"/>
+    
+
+
+    <!-- http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Instrument_entity -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Instrument_entity">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Personal_object"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Jewel_entity -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Jewel_entity">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Personal_object"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Key_entity -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Key_entity">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Personal_object"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Letter_entity -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Letter_entity">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Personal_object"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Location_entity -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Location_entity">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/World"/>
+        <rdfs:comment>Class of entities that are geographic locations within the game world.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Magic_restoring_item_entity -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Magic_restoring_item_entity">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Personal_object"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Mask_entity -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Mask_entity">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Personal_object"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Mighty_Darknut -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Mighty_Darknut">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <rdfs:comment>Subspecies of Darknut. See Darknut URI</rdfs:comment>
+        <foaf:name>Mighty Darknut</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Mini_Boss -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Mini_Boss">
+        <rdfs:label>Mini_boss</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Relationship_type"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/World"/>
+        <rdfs:comment>A higher order of enemies than Standard_enemy but below the order of Boss. These enemies tend to be rare, and/or occur in dungeons, and/or are more difficult to defeat than the Standard_enemy relationship type.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Parutamu -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Parutamu">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <rdfs:comment>Variant of Stalfos</rdfs:comment>
+        <foaf:name>Parutamu</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Personal_object -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Personal_object">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Independent_entity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Quest_item_entity -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Quest_item_entity">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Personal_object"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Race -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Race">
+        <rdfs:label>Race_type</rdfs:label>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://zeldawiki.org/Ancient_Robot"/>
+                    <rdf:Description rdf:about="http://zeldawiki.org/Anouki"/>
+                    <rdf:Description rdf:about="http://zeldawiki.org/Cobble"/>
+                    <rdf:Description rdf:about="http://zeldawiki.org/Deku_Scrub"/>
+                    <rdf:Description rdf:about="http://zeldawiki.org/Demon"/>
+                    <rdf:Description rdf:about="http://zeldawiki.org/Fairy"/>
+                    <rdf:Description rdf:about="http://zeldawiki.org/Fishman"/>
+                    <rdf:Description rdf:about="http://zeldawiki.org/Garo"/>
+                    <rdf:Description rdf:about="http://zeldawiki.org/Gerudo"/>
+                    <rdf:Description rdf:about="http://zeldawiki.org/Goron"/>
+                    <rdf:Description rdf:about="http://zeldawiki.org/Ho_Ho_Tribe"/>
+                    <rdf:Description rdf:about="http://zeldawiki.org/Human"/>
+                    <rdf:Description rdf:about="http://zeldawiki.org/Hylian"/>
+                    <rdf:Description rdf:about="http://zeldawiki.org/Keaton"/>
+                    <rdf:Description rdf:about="http://zeldawiki.org/Kikwi"/>
+                    <rdf:Description rdf:about="http://zeldawiki.org/Kokiri"/>
+                    <rdf:Description rdf:about="http://zeldawiki.org/Korok"/>
+                    <rdf:Description rdf:about="http://zeldawiki.org/Lokomo"/>
+                    <rdf:Description rdf:about="http://zeldawiki.org/Mermaid"/>
+                    <rdf:Description rdf:about="http://zeldawiki.org/Minish"/>
+                    <rdf:Description rdf:about="http://zeldawiki.org/Mogma"/>
+                    <rdf:Description rdf:about="http://zeldawiki.org/Monkey"/>
+                    <rdf:Description rdf:about="http://zeldawiki.org/Oocca"/>
+                    <rdf:Description rdf:about="http://zeldawiki.org/Parella"/>
+                    <rdf:Description rdf:about="http://zeldawiki.org/Rito"/>
+                    <rdf:Description rdf:about="http://zeldawiki.org/Sheikah"/>
+                    <rdf:Description rdf:about="http://zeldawiki.org/Skull_Kid"/>
+                    <rdf:Description rdf:about="http://zeldawiki.org/Subrosian"/>
+                    <rdf:Description rdf:about="http://zeldawiki.org/Tokay"/>
+                    <rdf:Description rdf:about="http://zeldawiki.org/Twili"/>
+                    <rdf:Description rdf:about="http://zeldawiki.org/Wind_Tribe"/>
+                    <rdf:Description rdf:about="http://zeldawiki.org/Yeti"/>
+                    <rdf:Description rdf:about="http://zeldawiki.org/Yook"/>
+                    <rdf:Description rdf:about="http://zeldawiki.org/Zora"/>
+                    <rdf:Description rdf:about="http://zeldawiki.org/Zuna"/>
+                </owl:unionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Value_entity"/>
+        <rdfs:comment>The type of race to be aplpied to character entities.</rdfs:comment>
+        <owl:versionInfo>Moving over as a class type for characters. 15 Oct. </owl:versionInfo>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Red_Bubble -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Red_Bubble">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <rdfs:comment>Variant of Bubble</rdfs:comment>
+        <foaf:name>Red Bubble</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Regular_Enemy -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Regular_Enemy">
+        <rdfs:label>Standard_enemy</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Relationship_type"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/World"/>
+        <rdfs:comment>This relationship defines those entites that are standard enemies. </rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Relationship_type -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Relationship_type">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Boss"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Friendly"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Mini_Boss"/>
+                    <rdf:Description rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Regular_Enemy"/>
+                </owl:unionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Value_entity"/>
+        <rdfs:comment>This is a class with a covering axiom which defines the relationship of characters classes to the individual entity Link (the protagonist/you)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Rod_entity -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Rod_entity">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Personal_object"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Shield_entity -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Shield_entity">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Personal_object"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Spell_entity -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Spell_entity">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Personal_object"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Trade_squence_item_entity -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Trade_squence_item_entity">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Personal_object"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Trap -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Trap">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Independent_entity"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/World"/>
+        <foaf:name>Trap</foaf:name>
+        <rdfs:comment>Those entites that cause harm to the protagonist yet cannot be defined as enemies.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Unused_Classes -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Unused_Classes">
+        <rdfs:label>Unused Class</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Unused_Classes"/>
+        <rdfs:comment>This is a set of entities that are not yet used. This may be due to a myriad of resons but, most likely, it is because I do not yet know where this class belong or if it should even exist.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Value_entity -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Value_entity"/>
+    
+
+
+    <!-- http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Value_type -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Value_type">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Unused_Classes"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Weapon_entity -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Weapon_entity">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Personal_object"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Whisp -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Whisp">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Trap"/>
+        <foaf:name>Whisp</foaf:name>
+        <rdfs:seeAlso>http://www.zeldawiki.org/bubble for more information on defining this class</rdfs:seeAlso>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/World -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/World">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Independent_entity"/>
+        <foaf:name>World</foaf:name>
+        <rdfs:comment>This is the largest evironment in which the particular game takes place within. Usually Hyrule but there are a few others.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/Document -->
+
+    <rdf:Description rdf:about="&foaf;Document">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Value_entity"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/LabelProperty -->
+
+    <rdf:Description rdf:about="&foaf;LabelProperty">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Value_entity"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://zeldawiki.org/Ache -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Ache">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Ache</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Acheman -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Acheman">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Acheman</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Acro-Bandits -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Acro-Bandits">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Acro-Bandits</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Aeralfos -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Aeralfos">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Aeralfos</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Ampilus -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Ampilus">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Ampilus</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Ampilus_Egg -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Ampilus_Egg">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Ampilus Egg</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Ancient_Robot -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Ancient_Robot">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Race"/>
+        <rdfs:comment>Mechanical race</rdfs:comment>
+        <foaf:name>Ancient Robot</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Aneru -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Aneru">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Aneru</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Anouki -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Anouki">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Race"/>
+        <foaf:name>Anouki</foaf:name>
+        <rdfs:comment>Antlered race living in cold climates</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Anti-Kirby -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Anti-Kirby">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Anti-Kirby</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Anubis -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Anubis">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Anubis</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Aracha -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Aracha">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Aracha</foaf:name>
+        <rdfs:comment>Should this be a sub-class of enemy Moldarch?</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Arm-Mimic -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Arm-Mimic">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Arm-Mimic</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Armored_Train -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Armored_Train">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <rdfs:comment>Non-biological enemy, tech species. Not of a trap class.</rdfs:comment>
+        <foaf:name>Armored Train</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Armos -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Armos">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Armos</foaf:name>
+        <rdfs:comment>Potentially many sub-classes. Anything that has armos in its name.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Armos_Warrior -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Armos_Warrior">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Armos Warrior</foaf:name>
+        <rdfs:comment>Sub-class of Armos?</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Arrgi -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Arrgi">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Arrgi</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Aruroda -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Aruroda">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Aruroda</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Baba_Serpent -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Baba_Serpent">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <rdfs:comment>Sub-species of Baba Deku?</rdfs:comment>
+        <foaf:name>Baba Serpent</foaf:name>
+        <rdfs:seeAlso>Baba Deku</rdfs:seeAlso>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Babusu -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Babusu">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Babusu</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Bad_Bat -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Bad_Bat">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Bad Bat</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Bago-Bago -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Bago-Bago">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Bago-Bago</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Ball -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Ball">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Trap"/>
+        <foaf:name>Ball</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Ball_and_Chain_Soldier -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Ball_and_Chain_Soldier">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Ball and Chain Soldier</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Bari -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Bari">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Bari</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Beamos -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Beamos">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <rdfs:comment>Should this be a trap or enemy, or both?</rdfs:comment>
+        <foaf:name>Beamos</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Bee -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Bee">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Bee</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Beetle_(Enemy) -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Beetle_(Enemy)">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Beetle</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Big_Blin -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Big_Blin">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <rdfs:seeAlso>Moblin</rdfs:seeAlso>
+        <foaf:name>Big Blin</foaf:name>
+        <rdfs:comment>Sub-class or related class of Moblin?</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Big_Deku_Baba -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Big_Deku_Baba">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Big Deku Baba</foaf:name>
+        <rdfs:comment>Subclass of Deku Baba?</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Bio_Deku_Baba -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Bio_Deku_Baba">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <rdfs:comment>Subclass of Deku Baba?</rdfs:comment>
+        <foaf:name>Bio Deku Baba</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Biri -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Biri">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Biri</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Bit -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Bit">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Bit</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Blade_Trap -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Blade_Trap">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Trap"/>
+        <foaf:name>Blade Trap</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Blastworm -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Blastworm">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Blastworm</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Blazing_Bat -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Blazing_Bat">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Blazing Bat</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Bloober -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Bloober">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Bloober</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Bob-omb -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Bob-omb">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Bob-omb</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Boe -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Boe">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Boe</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Boko_Baba -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Boko_Baba">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Boko Baba</foaf:name>
+        <rdfs:comment>Subspecies of Deku Baba</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Bokoblin -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Bokoblin">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Bokoblin</foaf:name>
+        <rdfs:comment>Subclass or related class of Moblin or Blin?</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Bombarossa -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Bombarossa">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Bombarossa</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Bomber -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Bomber">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Bomber</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Bombfish -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Bombfish">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Bombfish</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Bombite -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Bombite">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Bombite</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Bomskit -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Bomskit">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Bomskit</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Bone_Putter -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Bone_Putter">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Bone Putter</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Boo_Buddy -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Boo_Buddy">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Boo Buddy</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Boss_Bot -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Boss_Bot">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Boss Bot</foaf:name>
+        <terms:creator>Is this guy a boss? Subclass of Bot?</terms:creator>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Bot -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Bot">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Bot</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Boulder -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Boulder">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Trap"/>
+        <foaf:name>Boulder</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Brother_Goriyas -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Brother_Goriyas">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Unused_Classes"/>
+        <rdfs:comment>Should be a unique entity of the class goriyas?</rdfs:comment>
+        <foaf:name>Brother Goriyas</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Bubble -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Bubble">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Bubble</foaf:name>
+        <rdfs:comment>Many Subspecies, none with URI</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Bulblin -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Bulblin">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <rdfs:comment>Subspecies of Moblin?</rdfs:comment>
+        <foaf:name>Bulbin</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Bulbul -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Bulbul">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Bulbul</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Bullbo -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Bullbo">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Bullbo</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Bumper -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Bumper">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Trap"/>
+        <foaf:name>Bumper</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Business_Scrub -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Business_Scrub">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Unused_Classes"/>
+        <rdfs:comment>Is this a class or entity? It should not be an enemy though</rdfs:comment>
+        <foaf:name>Business Scrub</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Buzz -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Buzz">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Buzz</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Buzz_Blob -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Buzz_Blob">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Buzz Blob</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Camo_Goblin -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Camo_Goblin">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Camo Goblin</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Cannon_Soldier -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Cannon_Soldier">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Cannon Soldier</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Chain_Chomp -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Chain_Chomp">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Chain Chomp</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Chaser -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Chaser">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Trap"/>
+        <foaf:name>Chaser</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Chasupa -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Chasupa">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Chasupa</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Cheep-Cheep -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Cheep-Cheep">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Cheep Cheep</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Chief_Soldier -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Chief_Soldier">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <rdfs:comment>Also a boss and mini boss?</rdfs:comment>
+        <foaf:name>Chief Soldier</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Chilfos -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Chilfos">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Chilfos</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Chu_Worm -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Chu_Worm">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Chu Worm</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Chuchu -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Chuchu">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <rdfs:comment>Many subspiecies of chuchus!</rdfs:comment>
+        <foaf:name>Chuchu</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Club_Moblin -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Club_Moblin">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <rdfs:comment>SubSpeices of Moblin?</rdfs:comment>
+        <foaf:name>Moblin</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Cobble -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Cobble">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Race"/>
+        <foaf:name>Cobble</foaf:name>
+        <rdfs:comment>Tribe of beings gifte with premonition</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Composer_Brothers -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Composer_Brothers">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Unused_Classes"/>
+        <foaf:name>Composer Brothers</foaf:name>
+        <rdfs:comment>Two unique entities here? IDK?</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Cranioc -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Cranioc">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Cranioc</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Crow -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Crow">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Crow</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Cursed_Bokoblin -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Cursed_Bokoblin">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <rdfs:comment>Subspeices of Moblin or Blin?</rdfs:comment>
+        <foaf:name>Cursed Bokoblin</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Cyclone -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Cyclone">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Unused_Classes"/>
+        <foaf:name>Cyclone</foaf:name>
+        <rdfs:comment>Not a trap not a enemy, can do damage. More of a weather phenom.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Daira -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Daira">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Daira</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Dark_Train -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Dark_Train">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Dark Train</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Darknut -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Darknut">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Darknut</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Deadrock -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Deadrock">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Deadrock</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Death_Armos -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Death_Armos">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Death Armos</foaf:name>
+        <rdfs:comment>Subspieces of Armos?</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Debirando -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Debirando">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Debirando</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Deeler -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Deeler">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Deep_Python -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Deep_Python">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Deep Python</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Deku_Baba -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Deku_Baba">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Deku Baba</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Deku_Like -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Deku_Like">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Deku Like</foaf:name>
+        <rdfs:comment>This is supposed to be a cross between a Deku Baba and a Like-Like. How do I  model this?</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Deku_Scrub -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Deku_Scrub">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Race"/>
+        <rdfs:comment>Many subspecies incliding non-violent ones. How to handle this?</rdfs:comment>
+        <foaf:name>Deku Scrub</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Demon -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Demon">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Race"/>
+        <foaf:name>Demon</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Desbreko -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Desbreko">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Desbreko</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Dexihand -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Dexihand">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Dexihand</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Dinolfos -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Dinolfos">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Dinolfos</foaf:name>
+        <rdfs:comment>Stronger relative of Lizalfos</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Dodongo -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Dodongo">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Dodongo</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Doomknocker -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Doomknocker">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Doomknocker</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Door_Mimic -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Door_Mimic">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Trap"/>
+        <foaf:name>Door Mimic</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Dragonfly -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Dragonfly">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Dragonfly</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Eeno -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Eeno">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Eeno</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Ergtorok -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Ergtorok">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <rdfs:comment>Sub or related species of Octorok?</rdfs:comment>
+        <foaf:name>Ergtorok</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Eye_Plant -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Eye_Plant">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Eye Plant</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Eye_Slug -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Eye_Slug">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Eye Slug</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Eyeball_Monster -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Eyeball_Monster">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Eyeball Monster</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Eyegore -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Eyegore">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Eyegore</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Eyeroc -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Eyeroc">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Eyeroc</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Face_Lamp -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Face_Lamp">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Trap"/>
+        <foaf:name>Face Lamp</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Fairy -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Fairy">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Race"/>
+        <foaf:name>Fairy</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Fire_Baba -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Fire_Baba">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <rdfs:comment>Subspecies of Baba Deku?</rdfs:comment>
+        <foaf:name>Fire Baba</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Fire_Eye -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Fire_Eye">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Trap"/>
+        <foaf:name>Fire Eye</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Fishman -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Fishman">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Race"/>
+        <rdfs:comment>Talking Fish found in the Windwaker only</rdfs:comment>
+        <foaf:name>Fishmen</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Flame_Fountain -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Flame_Fountain">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Trap"/>
+        <foaf:name>Flame Fountain</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Flame_Trap -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Flame_Trap">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Trap"/>
+        <foaf:name>Flame Trap</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Flare_Dancer -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Flare_Dancer">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Flare Dancer</foaf:name>
+        <rdfs:comment>MiniBoss</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Floor_Spikes -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Floor_Spikes">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Trap"/>
+        <foaf:name>Floor Spikes</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Floormaster -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Floormaster">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Floormaster</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Flying_Fish -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Flying_Fish">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Flying Fish</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Flying_Pot -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Flying_Pot">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Flying Pot</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Flying_Tile -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Flying_Tile">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Flying Tile</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Fog -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Fog">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Trap"/>
+        <foaf:name>Fog</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Fokka -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Fokka">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Fokka</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Fokkeru -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Fokkeru">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Fokkeru</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Force_Like -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Force_Like">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Force Like</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Force_Soldier -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Force_Soldier">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Force Soldier</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Freezard -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Freezard">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Freezard</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Freezor -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Freezor">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Freezor</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Froak -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Froak">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Froak</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Frostare -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Frostare">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Frostare</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Furnix -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Furnix">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Furnix</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Garo -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Garo">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Race"/>
+        <rdfs:comment>Race of ninjas from Majora&apos;s Mask</rdfs:comment>
+        <foaf:name>Garo</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Garo_Master -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Garo_Master">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Garo Master</foaf:name>
+        <rdfs:comment>Boss and/or mini boss?</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Gekko -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Gekko">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Geldarm -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Geldarm">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Geldarm</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Geldman -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Geldman">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Geldman</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Geozard -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Geozard">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Geru -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Geru">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Geru</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Gerudo -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Gerudo">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Race"/>
+        <rdfs:comment>Desert People from which Ganon is a member of</rdfs:comment>
+        <foaf:name>Gerudo</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Gerune -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Gerune">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Gerune</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Ghini -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Ghini">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Ghini</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Ghost_(Majora%27s_Mask) -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Ghost_(Majora%27s_Mask)">
+        <rdfs:label>Ghost</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Ghost</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Ghoul_Rat -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Ghoul_Rat">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Ghoul Rat</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Giant_Buzz_Blob -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Giant_Buzz_Blob">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Giant Buzz Blob</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Giant_Ghini -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Giant_Ghini">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Giant Ghini</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Giant_Goponga_Flower -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Giant_Goponga_Flower">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Giant Goponga Flower</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Gibdo -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Gibdo">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Gibdo</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Gibo -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Gibo">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Gibo</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Girubokku -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Girubokku">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Girubokku</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Gohma_Larva -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Gohma_Larva">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Gohma Larva</foaf:name>
+        <rdfs:comment>Subspecies of Gohma</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Gold_Skulltula -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Gold_Skulltula">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Gold Skulltula</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Golden_Bee -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Golden_Bee">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Golden Bee</foaf:name>
+        <rdfs:comment>This is also an item use product. What to do?</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Goomba -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Goomba">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Goomba</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Goponga_Flower -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Goponga_Flower">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Goponga Flower</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Goriya -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Goriya">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Goriya</foaf:name>
+        <rdfs:comment>Goriya Brothers is a specific entity</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Goron -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Goron">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Race"/>
+        <rdfs:comment>Mole type race that lives in mountains</rdfs:comment>
+        <foaf:name>Goron</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Guardian -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Guardian">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Guardian</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Guay -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Guay">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Guay</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Guma -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Guma">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Guma</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Guruguru_Bar -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Guruguru_Bar">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Trap"/>
+        <foaf:name>Guruguru Bar</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Gyorg_(Enemy) -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Gyorg_(Enemy)">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Gyorg</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Hardhat_Beetle -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Hardhat_Beetle">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Hardhat Beetle</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Helmasaur -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Helmasaur">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Helmasaur</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Hikkun -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Hikkun">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Hikkun</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Hinox -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Hinox">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Hinox</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Ho_Ho_Tribe -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Ho_Ho_Tribe">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Race"/>
+        <foaf:name>Ho Ho Tribe</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Hokkubokku -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Hokkubokku">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Hokkubokku</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Hover -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Hover">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Hover</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Hrok -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Hrok">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Hrok</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Human -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Human">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Race"/>
+        <foaf:name>Human</foaf:name>
+        <rdfs:comment>This is specific to all those chracters that are not Hylian or any other race, identified by rounded ears. Any character not identified as anything else should be human.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Hylian -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Hylian">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Race"/>
+        <foaf:name>Hylian</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Hyu -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Hyu">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Hyu</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Iron_Knuckle -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Iron_Knuckle">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Iron Knuckle</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Joelle -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Joelle">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Unused_Classes"/>
+        <foaf:name>Joelle</foaf:name>
+        <rdfs:comment>Unique entity with Poe sister class</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Kargarok -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Kargarok">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Kargarok</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Keaton -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Keaton">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Race"/>
+        <foaf:name>Keaton</foaf:name>
+        <rdfs:comment>Not the same as the enemy class</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Keaton_(Enemy) -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Keaton_(Enemy)">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Keaton</foaf:name>
+        <rdfs:comment>Is this the enemy or a race of species?</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Keese -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Keese">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Keese</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Key_Master -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Key_Master">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Key Master</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Kikwi -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Kikwi">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Race"/>
+        <foaf:name>Kikwi</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Kodongo -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Kodongo">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Kodongo</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Kokiri -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Kokiri">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Race"/>
+        <foaf:name>Kokiri</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Korok -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Korok">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Race"/>
+        <rdfs:comment>Wooden beings with leaf faces</rdfs:comment>
+        <foaf:name>Korok</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Ku -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Ku">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Ku</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Kyameron -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Kyameron">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Kyameron</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Kyandokyan -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Kyandokyan">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Kyandokyan</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Kyune -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Kyune">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Kyune</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Lakitu -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Lakitu">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Lakitu</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Lanmola -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Lanmola">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Lanmola</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Laser_Eye -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Laser_Eye">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Trap"/>
+        <foaf:name>Laser Eye</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Leever -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Leever">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Leever</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Lightning_Lock -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Lightning_Lock">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Trap"/>
+        <foaf:name>Lightning Lock</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Like_Like -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Like_Like">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Like Like</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Lizalfos -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Lizalfos">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Lizalfos</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Lobarrier -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Lobarrier">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Lobarrier</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Lokomo -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Lokomo">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Race"/>
+        <foaf:name>Lokomo</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Lord_Bullbo -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Lord_Bullbo">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Lord Bullbo</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Lowder -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Lowder">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Lowder</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Lynel -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Lynel">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Lynel</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Mad_Bomber -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Mad_Bomber">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Mad Bomber</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Mad_Jelly -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Mad_Jelly">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Mad Jelly</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Mad_Scrub -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Mad_Scrub">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Mad Scrub</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Madderpillar -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Madderpillar">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Madderpillar</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Magmanos -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Magmanos">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Magmanos</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Mago -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Mago">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Mago</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Magtail -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Magtail">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Magtail</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Magunesu -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Magunesu">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Magunesu</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Malgyorg -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Malgyorg">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Malgyorg</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Mask-Mimic -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Mask-Mimic">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Mask-Mimic</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Massive_Eye -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Massive_Eye">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Massive Eye</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Mau -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Mau">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Mau</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Medusa -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Medusa">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Medusa</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Meg -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Meg">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Unused_Classes"/>
+        <foaf:name>Meg</foaf:name>
+        <rdfs:comment>Poe Sister</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Mega_Thwomp -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Mega_Thwomp">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Trap"/>
+        <foaf:name>Mega Thwomp</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Megmat -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Megmat">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Megmat</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Mermaid -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Mermaid">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Race"/>
+        <foaf:name>Mermaid</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Mini_Baba -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Mini_Baba">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <rdfs:comment>Subspecies of Deku Baba</rdfs:comment>
+        <foaf:name>Mini Baba</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Mini_Freezard -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Mini_Freezard">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <rdfs:comment>Subspecies of Freezard</rdfs:comment>
+        <foaf:name>Mini Freezard</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Miniblin -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Miniblin">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <rdfs:comment>Subspecies of Blins or Moblins?</rdfs:comment>
+        <foaf:name>Miniblin</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Minish -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Minish">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Race"/>
+        <foaf:name>Minish</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Moa -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Moa">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Moa</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Moby -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Moby">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Moby</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Mogma -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Mogma">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Race"/>
+        <foaf:name>Mogma</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Moink -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Moink">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Moink</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Moldorm -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Moldorm">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Moldorm</foaf:name>
+        <rdfs:seeAlso>Mini Moldorm</rdfs:seeAlso>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Moldworm -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Moldworm">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Moldworm</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Mole -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Mole">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Mole</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Monkey -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Monkey">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Race"/>
+        <rdfs:comment>Different from enemy monkeys</rdfs:comment>
+        <foaf:name>Monkey</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Monkey_(Enemy) -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Monkey_(Enemy)">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Monkey</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Morth -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Morth">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Morth</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Moth -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Moth">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Moth</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Mulldozer -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Mulldozer">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Mulldozer</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Mutt -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Mutt">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Mutt</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Myu -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Myu">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Myu</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Nejiron -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Nejiron">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Nejiron</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Nocturn -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Nocturn">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Nocturn</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Nokkun -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Nokkun">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Nokkun</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Octive -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Octive">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Octive</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Octoballoon -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Octoballoon">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Octoballon</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Octorok -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Octorok">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Octorok</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Oocca -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Oocca">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Race"/>
+        <foaf:name>Oocca</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Ook -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Ook">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Ook</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Orb_Monster -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Orb_Monster">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Orb Monster</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Pairodd -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Pairodd">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Pairodd</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Parasitic_Tentacle_(Ocarina_of_Time) -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Parasitic_Tentacle_(Ocarina_of_Time)">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Parasitic Tentacle</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Parasitic_Tentacle_(The_Wind_Waker) -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Parasitic_Tentacle_(The_Wind_Waker)">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <rdfs:comment>From the Wind Waker</rdfs:comment>
+        <foaf:name>Parasitic Tentacle</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Parella -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Parella">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Race"/>
+        <foaf:name>Parella</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Peahat -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Peahat">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Peahat</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Pengator -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Pengator">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Pengator</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Pesto -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Pesto">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Pesto</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Phantom -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Phantom">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Phantom</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Phantom_Eye -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Phantom_Eye">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Phantom Eye</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Pikit -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Pikit">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Pikit</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Pincer -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Pincer">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Pincer</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Piranha -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Piranha">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Piranha</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Piranha_Plant -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Piranha_Plant">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Piranha Plant</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Pirogusu -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Pirogusu">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Pirogusu</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Podoboo -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Podoboo">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Podoboo</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Poe -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Poe">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Poe_Sisters -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Poe_Sisters">
+        <rdfs:label>Poe Sisters</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Unused_Classes"/>
+        <rdfs:comment>Should this be boss class with the individual Poe sister&apos;s as entities? should this be a subclass of Poe? Should the Poe sisters be in the non-enemy class</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Poison_Mite -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Poison_Mite">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Poison Mite</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Pokey -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Pokey">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Pokey</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Pols_Voice -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Pols_Voice">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Pols Voice</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Popo -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Popo">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Popo</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Puffstool -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Puffstool">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Puffstool</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Puppet -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Puppet">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Puppet</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Pyrup -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Pyrup">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Pyrup</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Quadro_Baba -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Quadro_Baba">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Quadro Baba</foaf:name>
+        <rdfs:comment>Subspecies of Deku Baba</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Ra -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Ra">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Ra</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Rabbit_Beam -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Rabbit_Beam">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Trap"/>
+        <foaf:name>Rabbit Trap</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Rat -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Rat">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Rat</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/ReDead -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/ReDead">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>ReDead</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/ReDead_Knight -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/ReDead_Knight">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>ReDead Knight</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Real_Bombchu -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Real_Bombchu">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Real Bombchu</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Reapling -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Reapling">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Reapling</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Remlit -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Remlit">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Remlit</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Rito -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Rito">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Race"/>
+        <foaf:name>Rito</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/River_Devil -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/River_Devil">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>River Devil</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/River_Zora -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/River_Zora">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>River Zora</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Rocktite -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Rocktite">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Rocktite</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Rollobite -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Rollobite">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Rollobite</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Ropa -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Ropa">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Ropa</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Rope -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Rope">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Rope</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Rupee_Like -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Rupee_Like">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Rupee Like</foaf:name>
+        <rdfs:comment>Variant of Like Like</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Rupee_Wraith -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Rupee_Wraith">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Rupee Wraith</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Sand_Crab -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Sand_Crab">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Sand Crab</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Sandworm -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Sandworm">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Sandworm</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Scissors_Beetle -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Scissors_Beetle">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Scissors Beetle</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Sea_Trap -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Sea_Trap">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Trap"/>
+        <foaf:name>Sea Trap</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Sea_Urchin -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Sea_Urchin">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Sea Urchin</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Seahat -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Seahat">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Seahat</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Sentrobe -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Sentrobe">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Sentrobe</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Shabom -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Shabom">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Trap"/>
+        <foaf:name>Shabom</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Shadow_Beast -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Shadow_Beast">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Shadow Beast</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Shadow_Insect -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Shadow_Insect">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Shadow Insect</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Shadow_Vermin -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Shadow_Vermin">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Shadow Vermin</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Sheikah -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Sheikah">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Race"/>
+        <foaf:name>Sheikah</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Shell_Blade -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Shell_Blade">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Shell Blade</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Sir_Frosty -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Sir_Frosty">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Sir Frosty</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Skull_Kid -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Skull_Kid">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Race"/>
+        <rdfs:comment>Main Characters</rdfs:comment>
+        <foaf:name>Skull Kid</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Skullfish -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Skullfish">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Skullfish</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Skulltula -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Skulltula">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Skulltula</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Skullwalltula -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Skullwalltula">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Skullwalltula</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Skytail -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Skytail">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Skytail</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Slarok -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Slarok">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Slarok</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Slime -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Slime">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Slime</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Sluggula -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Sluggula">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Sluggula</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Snap_Dragon -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Snap_Dragon">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Snap Dragon</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Snapper_(Majora%27s_Mask) -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Snapper_(Majora%27s_Mask)">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Snapper</foaf:name>
+        <rdfs:comment>From Majora&apos;s Mask</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Snapper_(Spirit_Tracks) -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Snapper_(Spirit_Tracks)">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Snapper</foaf:name>
+        <rdfs:comment>From Spirit Tracks</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Snurgle -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Snurgle">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Snurgle</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Soldier_(Enemy) -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Soldier_(Enemy)">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Soldier</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Spark -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Spark">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Spark</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Spike -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Spike">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Trap"/>
+        <foaf:name>Spike</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Spiked_Beetle -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Spiked_Beetle">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Spiked Beetle</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Spiked_Roller -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Spiked_Roller">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Trap"/>
+        <foaf:name>Spiked Roller</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Spiked_Thwomp -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Spiked_Thwomp">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Trap"/>
+        <foaf:name>Spiked Thwomp</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Spinut -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Spinut">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Spinut</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Spiny_Beetle -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Spiny_Beetle">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Spiny Beetle</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Spume -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Spume">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Spume</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Squiddy -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Squiddy">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Squiddy</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Stag_Beetle -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Stag_Beetle">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Stag Beetle</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Stal -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Stal">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Stal</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Stalchild -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Stalchild">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Stalchild</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Staldra -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Staldra">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Staldra</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Stalfos -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Stalfos">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Stalfos</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Stalfos_Knight -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Stalfos_Knight">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Stalfos Knight</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Stalhound -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Stalhound">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Stalhound</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Staltroop -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Staltroop">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Staltroop</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Star -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Star">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Star</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Stinger -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Stinger">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Stinger</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Stone_Elevator -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Stone_Elevator">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Trap"/>
+        <foaf:name>Stone Elevator</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Stone_Hinox -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Stone_Hinox">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Stone Hinox</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Stone_Statue -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Stone_Statue">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Trap"/>
+        <foaf:name>Stone Statue</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Subrosian -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Subrosian">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Race"/>
+        <foaf:name>Subrosian</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Subterror -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Subterror">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Subterror</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Swamola -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Swamola">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Swamola</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Syger -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Syger">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Syger</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Tailpasaran -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Tailpasaran">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Tailpasaran</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Takkuri -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Takkuri">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Takkuri</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Tank -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Tank">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Tank</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Tarosu -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Tarosu">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Tarosu</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Technoblin -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Technoblin">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Technoblin</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Tektite -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Tektite">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Tektite</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Terrorpin -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Terrorpin">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Terrorpin</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Thief -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Thief">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Unused_Classes"/>
+        <rdfs:comment>Enemy that can&apos;t be killed, sometimes friendly</rdfs:comment>
+        <foaf:name>Thief</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Three-of-a-Kind -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Three-of-a-Kind">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Three-of-a-Kind</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Thwomp -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Thwomp">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Trap"/>
+        <foaf:name>Thwomp</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Tile_Worm -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Tile_Worm">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Tile Worm</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Toado -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Toado">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Toado</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Toadpoli -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Toadpoli">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Toadpoli</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Tokay -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Tokay">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Race"/>
+        <foaf:name>Tokay</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Toppo -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Toppo">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Toppo</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Torch_Slug -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Torch_Slug">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Torch Slug</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Twili -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Twili">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Race"/>
+        <foaf:name>Twili</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Vacuum_Mouth -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Vacuum_Mouth">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Vacuum Mouth</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Vengas -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Vengas">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Vengas</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Vire -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Vire">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Vire</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Vulture -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Vulture">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Vulture</foaf:name>
+        <rdfs:seeAlso>http://www.aeldawiki.org/tendoru</rdfs:seeAlso>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Wall_Turret -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Wall_Turret">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Trap"/>
+        <foaf:name>Wall Turret</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Wallmaster -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Wallmaster">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Wallmaster</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Warship -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Warship">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Warship</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Watcher -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Watcher">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Trap"/>
+        <foaf:name>Watcher</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/White_Wolfos -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/White_Wolfos">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>White Wolfos</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Wind_Tribe -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Wind_Tribe">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Race"/>
+        <foaf:name>Wind Tribe</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Winder -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Winder">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Trap"/>
+        <foaf:name>Winder</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Wizzrobe -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Wizzrobe">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Wizzrobe</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Wolfos -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Wolfos">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Wolfos</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Wosu -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Wosu">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Wosu</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Yeti -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Yeti">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Race"/>
+        <foaf:name>Yeti</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Yook -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Yook">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Race"/>
+        <foaf:name>Yook</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Zant%27s_Hand -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Zant%27s_Hand">
+        <rdfs:label>Zant&apos;s Hand</rdfs:label>
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Zant_Mask -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Zant_Mask">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Zant Mask</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Zazakku -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Zazakku">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Zazakku</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Zol -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Zol">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Zol</foaf:name>
+        <rdfs:comment>Gels are alaso a viable class describe in this class. A subspecies of Zols.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Zombie -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Zombie">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Zombie</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Zora -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Zora">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Race"/>
+        <foaf:name>Zora</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Zoro -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Zoro">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Enemies"/>
+        <foaf:name>Zoro</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- http://zeldawiki.org/Zuna -->
+
+    <owl:Class rdf:about="http://zeldawiki.org/Zuna">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Race"/>
+        <foaf:name>Zuna</foaf:name>
+    </owl:Class>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotations
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description rdf:about="&owl;Thing">
+        <foaf:name>Legend of Zelda Series</foaf:name>
+    </rdf:Description>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // General axioms
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Boss"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Friendly"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Game"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Mini_Boss"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Regular_Enemy"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Big_Poe"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Blue_Bubble"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Dark_Stalfos"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Green_Bubble"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Mighty_Darknut"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Parutamu"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/ralph/ontologies/2013/10/Legend_of_Zelda/Red_Bubble"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Ache"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Acheman"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Acro-Bandits"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Aeralfos"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Ampilus"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Ampilus_Egg"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Aneru"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Anti-Kirby"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Anubis"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Aracha"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Arm-Mimic"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Armored_Train"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Armos"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Armos_Warrior"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Arrgi"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Aruroda"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Baba_Serpent"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Babusu"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Bad_Bat"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Bago-Bago"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Ball_and_Chain_Soldier"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Bari"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Bee"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Beetle_(Enemy)"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Big_Blin"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Big_Deku_Baba"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Bio_Deku_Baba"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Biri"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Bit"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Blastworm"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Blazing_Bat"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Bloober"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Bob-omb"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Boe"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Boko_Baba"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Bokoblin"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Bombarossa"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Bomber"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Bombfish"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Bombite"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Bomskit"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Bone_Putter"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Boo_Buddy"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Boss_Bot"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Bot"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Bubble"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Bulblin"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Bulbul"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Bullbo"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Buzz"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Buzz_Blob"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Camo_Goblin"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Cannon_Soldier"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Chain_Chomp"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Chasupa"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Cheep-Cheep"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Chief_Soldier"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Chilfos"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Chu_Worm"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Chuchu"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Club_Moblin"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Cranioc"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Crow"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Cursed_Bokoblin"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Daira"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Dark_Train"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Darknut"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Deadrock"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Death_Armos"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Debirando"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Deeler"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Deep_Python"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Deku_Baba"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Deku_Like"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Deku_Scrub"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Desbreko"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Dexihand"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Dinolfos"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Dodongo"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Doomknocker"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Dragonfly"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Eeno"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Ergtorok"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Eye_Plant"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Eye_Slug"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Eyeball_Monster"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Eyegore"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Eyeroc"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Fire_Baba"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Flare_Dancer"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Floormaster"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Flying_Fish"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Flying_Pot"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Flying_Tile"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Fokka"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Fokkeru"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Force_Like"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Force_Soldier"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Freezard"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Freezor"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Froak"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Frostare"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Furnix"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Garo"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Garo_Master"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Gekko"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Geldarm"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Geldman"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Geozard"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Geru"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Gerune"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Ghini"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Ghost_(Majora%27s_Mask)"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Ghoul_Rat"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Giant_Buzz_Blob"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Giant_Ghini"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Giant_Goponga_Flower"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Gibdo"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Gibo"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Girubokku"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Gohma_Larva"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Gold_Skulltula"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Golden_Bee"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Goomba"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Goponga_Flower"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Goriya"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Guardian"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Guay"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Guma"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Gyorg_(Enemy)"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Hardhat_Beetle"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Helmasaur"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Hikkun"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Hinox"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Hokkubokku"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Hover"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Hrok"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Hyu"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Iron_Knuckle"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Kargarok"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Keaton_(Enemy)"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Keese"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Key_Master"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Kodongo"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Ku"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Kyameron"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Kyandokyan"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Kyune"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Lakitu"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Lanmola"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Leever"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Like_Like"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Lizalfos"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Lobarrier"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Lord_Bullbo"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Lowder"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Lynel"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Mad_Bomber"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Mad_Jelly"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Mad_Scrub"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Madderpillar"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Magmanos"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Mago"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Magtail"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Magunesu"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Malgyorg"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Mask-Mimic"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Massive_Eye"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Mau"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Medusa"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Megmat"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Mini_Baba"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Mini_Freezard"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Miniblin"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Moa"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Moby"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Moink"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Moldorm"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Moldworm"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Mole"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Monkey_(Enemy)"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Morth"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Moth"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Mulldozer"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Mutt"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Myu"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Nejiron"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Nocturn"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Nokkun"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Octive"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Octoballoon"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Octorok"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Ook"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Orb_Monster"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Pairodd"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Parasitic_Tentacle_(Ocarina_of_Time)"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Parasitic_Tentacle_(The_Wind_Waker)"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Peahat"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Pengator"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Pesto"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Phantom"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Phantom_Eye"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Pikit"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Pincer"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Piranha"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Piranha_Plant"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Pirogusu"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Podoboo"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Poe"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Poison_Mite"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Pokey"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Pols_Voice"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Popo"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Puffstool"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Puppet"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Pyrup"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Quadro_Baba"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Ra"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Rat"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/ReDead"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/ReDead_Knight"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Real_Bombchu"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Reapling"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Remlit"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/River_Devil"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/River_Zora"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Rocktite"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Rollobite"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Ropa"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Rope"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Rupee_Like"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Rupee_Wraith"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Sand_Crab"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Sandworm"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Scissors_Beetle"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Sea_Urchin"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Seahat"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Sentrobe"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Shadow_Beast"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Shadow_Insect"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Shadow_Vermin"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Shell_Blade"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Sir_Frosty"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Skull_Kid"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Skullfish"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Skulltula"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Skullwalltula"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Skytail"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Slarok"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Slime"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Sluggula"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Snap_Dragon"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Snapper_(Majora%27s_Mask)"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Snapper_(Spirit_Tracks)"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Snurgle"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Soldier_(Enemy)"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Spark"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Spiked_Beetle"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Spinut"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Spiny_Beetle"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Spume"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Squiddy"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Stag_Beetle"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Stal"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Stalchild"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Staldra"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Stalfos"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Stalfos_Knight"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Stalhound"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Staltroop"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Star"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Stinger"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Stone_Hinox"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Subterror"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Swamola"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Syger"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Tailpasaran"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Takkuri"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Tank"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Tarosu"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Technoblin"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Tektite"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Terrorpin"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Three-of-a-Kind"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Tile_Worm"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Toado"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Toadpoli"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Toppo"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Torch_Slug"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Vacuum_Mouth"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Vengas"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Vire"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Vulture"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Wallmaster"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Warship"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/White_Wolfos"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Wizzrobe"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Wolfos"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Wosu"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Yook"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Zant%27s_Hand"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Zant_Mask"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Zazakku"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Zol"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Zombie"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Zoro"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://zeldawiki.org/Ancient_Robot"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Anouki"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Cobble"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Deku_Scrub"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Demon"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Fairy"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Fishman"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Garo"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Gerudo"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Goron"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Ho_Ho_Tribe"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Human"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Hylian"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Keaton"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Kikwi"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Kokiri"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Korok"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Lokomo"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Mermaid"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Minish"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Mogma"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Monkey"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Oocca"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Parella"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Rito"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Sheikah"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Skull_Kid"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Subrosian"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Tokay"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Twili"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Wind_Tribe"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Yeti"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Yook"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Zora"/>
+            <rdf:Description rdf:about="http://zeldawiki.org/Zuna"/>
+        </owl:members>
+    </rdf:Description>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.4.2) http://owlapi.sourceforge.net -->
+
